@@ -19,12 +19,13 @@ class ConstanceConfig(AppConfig):
         from django.contrib.auth.models import Permission
         from django.contrib.contenttypes.models import ContentType
 
-        if ContentType._meta.installed and Permission._meta.installed:
+        if ContentType._meta.installed:
             content_type, created = ContentType.objects.using(using).get_or_create(
                 app_label='constance',
                 model='config',
             )
 
+        if Permission._meta.installed:
             permission, created = Permission.objects.using(using).get_or_create(
                 name='Can change config',
                 content_type=content_type,
